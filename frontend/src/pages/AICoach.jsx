@@ -186,6 +186,40 @@ const progress = Math.round(
   (completedChallenges / challenges.length) * 100
 );
 
+const weeklyChallenges = [];
+
+if (record.travel > 400) {
+  weeklyChallenges.push("🚶 Reduce travel by 30 km this week");
+} else {
+  weeklyChallenges.push("🚶 Maintain your low travel this week");
+}
+
+if (record.electricity > 350) {
+  weeklyChallenges.push("💡 Reduce electricity usage by 10%");
+} else {
+  weeklyChallenges.push("⚡ Keep your electricity usage efficient");
+}
+
+if (record.waste > 15) {
+  weeklyChallenges.push("♻️ Recycle household waste");
+} else {
+  weeklyChallenges.push("🗑️ Continue minimizing waste");
+}
+
+if (record.water > 200) {
+  weeklyChallenges.push("💧 Save 50 litres of water daily");
+} else {
+  weeklyChallenges.push("🚰 Great! Continue saving water");
+}
+
+if (record.diet === "Non-Vegetarian") {
+  weeklyChallenges.push("🥗 Eat vegetarian meals twice this week");
+} else {
+  weeklyChallenges.push("🌱 Continue your sustainable diet");
+}
+
+
+
   return (
     <div
       style={{
@@ -302,18 +336,16 @@ const progress = Math.round(
         >
           <h2>🎯 Weekly Eco Challenge</h2>
 
-          <ul
-            style={{
-              color: "#cbd5e1",
-              lineHeight: "2",
-            }}
-          >
-            <li>🚶 Walk 20 km this week</li>
-            <li>🚲 Replace one car trip with cycling</li>
-            <li>♻️ Recycle household waste</li>
-            <li>💧 Save 50 litres of water daily</li>
-            <li>🌳 Plant one tree this month</li>
-          </ul>
+<ul
+  style={{
+    color: "#cbd5e1",
+    lineHeight: "2",
+  }}
+>
+  {weeklyChallenges.map((challenge, index) => (
+    <li key={index}>{challenge}</li>
+  ))}
+</ul>
         </div>
       </div>
 
@@ -325,14 +357,7 @@ const progress = Math.round(
           borderRadius: "20px",
         }}
       >
-        <div
-  style={{
-    marginTop: "25px",
-    background: "#1e293b",
-    padding: "25px",
-    borderRadius: "20px",
-  }}
->
+        
   <h2>🎯 Daily Eco Challenges</h2>
 
   {challenges.map((challenge, index) => (
@@ -358,6 +383,8 @@ const progress = Math.round(
         {challenge.completed ? "✅" : "⬜"}
       </span>
     </div>
+    
+  
   ))}
 
   <div
@@ -451,7 +478,7 @@ const progress = Math.round(
           <b> below 300 kg CO₂ per month.</b>
         </p>
       </div>
-    </div>
+    
   );
 }
 
