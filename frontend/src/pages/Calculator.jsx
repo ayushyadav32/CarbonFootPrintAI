@@ -14,7 +14,7 @@ function Calculator() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/calculate/",
+        "https://carbonfootprintai.onrender.com/api/calculate/",
         {
           travel,
           electricity,

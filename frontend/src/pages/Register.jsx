@@ -21,7 +21,7 @@ function Register() {
   const handleRegister = async () => {
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/accounts/register/",
+        "https://carbonfootprintai.onrender.com/api/accounts/register/",
         form
       );
 
