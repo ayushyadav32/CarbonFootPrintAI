@@ -7,9 +7,12 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 ChartJS.register(
   CategoryScale,
@@ -18,24 +21,74 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 function CarbonChart() {
+  const [records, setRecords] = useState([]);
+
+  useEffect(() => {
+    fetchRecords();
+  }, []);
+
+  const fetchRecords = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/records/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setRecords(response.data.reverse());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  if (records.length === 0) {
+    return (
+      <div
+        style={{
+          color: "white",
+          textAlign: "center",
+          marginTop: "40px",
+          background: "#1e293b",
+          padding: "30px",
+          borderRadius: "20px",
+        }}
+      >
+        <h2>📈 Carbon Trend Analysis</h2>
+        <p>No Carbon History Yet</p>
+      </div>
+    );
+  }
+
   const data = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    labels: records.map((record) => record.created_at),
+
     datasets: [
       {
         label: "Carbon Emissions (kg CO₂)",
-        data: [120, 95, 110, 85, 121, 100, 90],
+        data: records.map((record) => record.carbon_score),
+
         borderColor: "#22c55e",
-        backgroundColor: "rgba(34, 197, 94, 0.25)",
+        backgroundColor: "rgba(34,197,94,0.25)",
+
         pointBackgroundColor: "#22c55e",
         pointBorderColor: "#ffffff",
+
         pointRadius: 6,
         pointHoverRadius: 8,
-        fill: true,
+
         borderWidth: 4,
+
+        fill: true,
         tension: 0.4,
       },
     ],
@@ -43,6 +96,7 @@ function CarbonChart() {
 
   const options = {
     responsive: true,
+
     plugins: {
       legend: {
         labels: {
@@ -52,23 +106,26 @@ function CarbonChart() {
           },
         },
       },
-      title: {
-        display: false,
-      },
     },
+
     scales: {
       x: {
         ticks: {
           color: "white",
         },
+
         grid: {
           color: "#374151",
         },
       },
+
       y: {
+        beginAtZero: true,
+
         ticks: {
           color: "white",
         },
+
         grid: {
           color: "#374151",
         },
@@ -79,12 +136,11 @@ function CarbonChart() {
   return (
     <div
       style={{
-        background:
-          "linear-gradient(135deg, #1e293b, #111827)",
+        background: "linear-gradient(135deg,#1e293b,#111827)",
         padding: "25px",
         borderRadius: "20px",
         marginTop: "30px",
-        boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+        boxShadow: "0 10px 25px rgba(0,0,0,.3)",
       }}
     >
       <h2

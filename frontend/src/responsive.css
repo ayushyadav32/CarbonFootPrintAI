@@ -1,0 +1,68 @@
+/* ================= MOBILE ================= */
+
+@media (max-width:768px){
+
+nav{
+padding:15px !important;
+flex-direction:column;
+gap:15px;
+}
+
+nav div{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:12px !important;
+}
+
+h1{
+font-size:34px !important;
+}
+
+h2{
+font-size:26px !important;
+}
+
+h3{
+font-size:22px !important;
+}
+
+p{
+font-size:16px !important;
+}
+
+input,
+select,
+button{
+font-size:16px !important;
+padding:14px !important;
+}
+
+table{
+font-size:14px;
+}
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media(max-width:480px){
+
+h1{
+font-size:28px !important;
+}
+
+h2{
+font-size:22px !important;
+}
+
+nav{
+padding:12px !important;
+}
+
+nav div{
+gap:8px !important;
+}
+
+}

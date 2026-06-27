@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import calculate_carbon, get_records
+from . import views
 
 urlpatterns = [
-    path("calculate/", calculate_carbon),
-    path("records/", get_records),
+    path("calculate/", views.calculate_carbon),
+    path("records/", views.get_records),
+    path("records/<int:pk>/delete/", views.delete_record),
 ]
