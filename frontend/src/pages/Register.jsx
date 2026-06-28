@@ -29,9 +29,16 @@ function Register() {
 
       navigate("/login");
     } catch (error) {
-      alert("❌ Registration Failed");
-    }
-  };
+  console.log(error);
+
+  if (error.response) {
+    console.log(error.response.data);
+    alert(JSON.stringify(error.response.data));
+  } else {
+    alert(error.message);
+  }
+}
+};
 
   return (
     <div
