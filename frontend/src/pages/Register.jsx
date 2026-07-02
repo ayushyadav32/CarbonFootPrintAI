@@ -156,13 +156,8 @@ function Register() {
               marginBottom: 0,
             }}
           >
+           📝 Creating your account...<br></br>
             Please wait...
-            <br />
-            Your account is being created.
-            <br />
-            If the server is sleeping, it may take
-            <br />
-            <b>20–30 seconds</b> to wake up.
           </p>
         </div>
       )}

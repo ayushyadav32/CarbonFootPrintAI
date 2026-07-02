@@ -136,11 +136,8 @@ function Login() {
               marginBottom: 0,
             }}
           >
+           🔒 Authenticating...<br></br>
             Please wait...
-            <br />
-            If the server is sleeping, it may take
-            <br />
-            <b>20–30 seconds</b> to wake up.
           </p>
         </div>
       )}
