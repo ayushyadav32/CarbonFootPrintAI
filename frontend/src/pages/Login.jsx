@@ -12,6 +12,8 @@ function Login() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -20,6 +22,8 @@ function Login() {
   };
 
   const handleLogin = async () => {
+    setLoading(true);
+
     try {
       const response = await axios.post(
         "https://carbonfootprintai.onrender.com/api/login/",
@@ -33,6 +37,8 @@ function Login() {
       navigate("/");
     } catch (error) {
       alert("❌ Invalid Username or Password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,6 +64,7 @@ function Login() {
         placeholder="Username"
         value={form.username}
         onChange={handleChange}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "12px",
@@ -72,29 +79,71 @@ function Login() {
         placeholder="Password"
         value={form.password}
         onChange={handleChange}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "12px",
           marginTop: "15px",
+          boxSizing: "border-box",
         }}
       />
 
       <button
         onClick={handleLogin}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "14px",
           marginTop: "20px",
-          background: "#22c55e",
+          background: loading ? "#64748b" : "#22c55e",
           color: "white",
           border: "none",
-          cursor: "pointer",
+          cursor: loading ? "not-allowed" : "pointer",
           borderRadius: "10px",
           boxSizing: "border-box",
+          fontWeight: "bold",
         }}
       >
-        Login
+        {loading ? "⏳ Logging In..." : "🔐 Login"}
       </button>
+
+      {loading && (
+        <div
+          style={{
+            marginTop: "18px",
+            background: "#0f172a",
+            padding: "15px",
+            borderRadius: "10px",
+            textAlign: "center",
+            border: "1px solid #334155",
+          }}
+        >
+          <p
+            style={{
+              color: "#facc15",
+              margin: 0,
+              fontWeight: "bold",
+            }}
+          >
+            ⏳ Connecting to server...
+          </p>
+
+          <p
+            style={{
+              color: "#cbd5e1",
+              fontSize: "14px",
+              marginTop: "8px",
+              marginBottom: 0,
+            }}
+          >
+            Please wait...
+            <br />
+            If the server is sleeping, it may take
+            <br />
+            <b>20–30 seconds</b> to wake up.
+          </p>
+        </div>
+      )}
 
       <p style={{ marginTop: "20px" }}>
         Don't have an account?{" "}

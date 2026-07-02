@@ -11,6 +11,8 @@ function Register() {
     password: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -19,6 +21,8 @@ function Register() {
   };
 
   const handleRegister = async () => {
+    setLoading(true);
+
     try {
       await axios.post(
         "https://carbonfootprintai.onrender.com/api/accounts/register/",
@@ -26,19 +30,22 @@ function Register() {
       );
 
       alert("✅ Registration Successful");
-
       navigate("/login");
-    } catch (error) {
-  console.log(error);
 
-  if (error.response) {
-    console.log(error.response.data);
-    alert(JSON.stringify(error.response.data));
-  } else {
-    alert(error.message);
-  }
-}
-};
+    } catch (error) {
+      console.log(error);
+
+      if (error.response) {
+        console.log(error.response.data);
+        alert(JSON.stringify(error.response.data));
+      } else {
+        alert(error.message);
+      }
+
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
@@ -62,6 +69,7 @@ function Register() {
         placeholder="Username"
         value={form.username}
         onChange={handleChange}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "12px",
@@ -76,6 +84,7 @@ function Register() {
         placeholder="Email"
         value={form.email}
         onChange={handleChange}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "12px",
@@ -90,6 +99,7 @@ function Register() {
         placeholder="Password"
         value={form.password}
         onChange={handleChange}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "12px",
@@ -100,20 +110,62 @@ function Register() {
 
       <button
         onClick={handleRegister}
+        disabled={loading}
         style={{
           width: "100%",
           padding: "14px",
           marginTop: "20px",
-          background: "#22c55e",
+          background: loading ? "#64748b" : "#22c55e",
           color: "white",
           border: "none",
           borderRadius: "10px",
-          cursor: "pointer",
+          cursor: loading ? "not-allowed" : "pointer",
           boxSizing: "border-box",
+          fontWeight: "bold",
         }}
       >
-        Register
+        {loading ? "⏳ Creating Account..." : "📝 Register"}
       </button>
+
+      {loading && (
+        <div
+          style={{
+            marginTop: "18px",
+            background: "#0f172a",
+            padding: "15px",
+            borderRadius: "10px",
+            textAlign: "center",
+            border: "1px solid #334155",
+          }}
+        >
+          <p
+            style={{
+              color: "#facc15",
+              margin: 0,
+              fontWeight: "bold",
+            }}
+          >
+            ⏳ Connecting to server...
+          </p>
+
+          <p
+            style={{
+              color: "#cbd5e1",
+              fontSize: "14px",
+              marginTop: "8px",
+              marginBottom: 0,
+            }}
+          >
+            Please wait...
+            <br />
+            Your account is being created.
+            <br />
+            If the server is sleeping, it may take
+            <br />
+            <b>20–30 seconds</b> to wake up.
+          </p>
+        </div>
+      )}
 
       <p style={{ marginTop: "20px" }}>
         Already have an account?{" "}
